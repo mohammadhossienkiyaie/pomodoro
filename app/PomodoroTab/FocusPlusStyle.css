@@ -11,6 +11,7 @@ p {
 
 a {
     text-decoration: none;
+    display: block;
 }
 
 .appDiv {
@@ -24,7 +25,7 @@ a {
     flex-direction: row;
     justify-content: space-between;
     height: 40px;
-    width: 350px;
+    width: 370px;
 }
 
 .titleIcon {
@@ -47,6 +48,7 @@ a {
     flex-direction: row;
     align-items: center;
     gap: 10px;
+    margin-left: 10px;
 }
 
 .titleDiv {
@@ -55,48 +57,59 @@ a {
     gap: 5px;
 }
 
-
-.menuBar {
-    display: inline-flex;
+.main-menu {
+    width: 350px;
+    height: 65px;
+    display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 50px;
-    width: 350px;
-    padding-bottom: 10px;
-    padding-top: 10px;
     align-items: center;
+    gap: 30px;
     border-bottom: 1px solid #C3BBBB;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
-.secondBarIcon {
-    width: 20px;
-    height: 20px;
-}
-
-.secondBarDiv {
+.main-item-link {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    cursor: pointer;
+    justify-content: center;
+
 }
 
+.menu-icon {
+    width: 30px;
+    height: 30px;
+}
 
-.secondBarDiv:hover .noteIcon {
-    fill: green;
+.menu-icon-defualt{
+    opacity: 1;
 }
-.secondBarDiv:hover p{
-    color: green;
+.menu-icon-hover{
+    opacity: 0;
 }
-.secondBarDiv:hover .timerIcon{
-    stroke: green;
+
+.menu-text {
+    font-size: 13px;
+    transition: color 0.1s ease-in-out;
 }
-.secondBarDiv:hover .settingIcon{
-    stroke: green;
+
+.menu-underline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background-color: green;
 }
-.secondBarDiv:hover .configIcon{
-    stroke: green;
+
+.menu-item-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 15px 5px 15px;
 }
-.exitIcon:hover .exitIconPath{
-    fill: red;
+.pstyle{
+    color: rgb(9, 4, 63);
 }

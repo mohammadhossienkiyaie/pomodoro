@@ -14,7 +14,23 @@ const iconPath = {
     'settingIcon': {
         default: '/img/icons/settingIcon.svg',
         hover: '/img/icons/settingIcon-hover.svg'
-    }
+    },
+    'restIcon': {
+        default: '/img/icons/rest.svg',
+        hover: '/img/icons/rest-hover.svg',
+    },
+    'startIcon': {
+        default: '/img/icons/start.svg',
+        hover: '/img/icons/start-hover.svg'
+    },
+    'forwardIcon': {
+        default: '/img/icons/forward.svg',
+        hover: '/img/icons/forward-hover.svg'
+    },
+    'soundIcon': {
+        default: '/img/icons/soundon.svg',
+        hover: '/img/icons/soundon-hover.svg'
+    },
 };
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -100,4 +116,28 @@ function initializetTopbarHoverEffects() {
         })
     }
 }
+const restIcon = document.getElementById('restIcon');
+const startIcon = document.getElementById('startIcon');
+const forwardIcon = document.getElementById('forwardIcon');
+const soundIcon = document.getElementById('soundIcon');
 
+function controllIcon(){
+    const allControllIcon = document.querySelectorAll('.timercontrolDiv');
+    console.log(allControllIcon);
+    if(allControllIcon.length > 0){
+        allControllIcon.forEach(icons =>{
+            const ID  = icons.id;
+            if(ID && iconPath[ID]){
+                icons.addEventListener('mouseenter' , function(){
+                    icons.src = iconPath[ID].hover;
+                });
+                icons.addEventListener('mouseleave' , function(){
+                    icons.src = iconPath[ID].default;
+                })
+            }else{
+                console.log('the id dosent found ! ');
+            }
+        })
+    }
+}
+document.addEventListener('DOMContentLoaded' , controllIcon);

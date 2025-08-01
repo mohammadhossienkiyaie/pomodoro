@@ -14,10 +14,21 @@ a {
     display: block;
 }
 
+.mainDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .appDiv {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 370px;
+    height: 500px;
+    border: 2px solid white;
+    margin: 0px;
+    padding: 0px;
 }
 
 .titleBar {
@@ -83,10 +94,11 @@ a {
     height: 30px;
 }
 
-.menu-icon-defualt{
+.menu-icon-defualt {
     opacity: 1;
 }
-.menu-icon-hover{
+
+.menu-icon-hover {
     opacity: 0;
 }
 
@@ -110,6 +122,98 @@ a {
     justify-content: center;
     padding: 5px 15px 5px 15px;
 }
-.pstyle{
-    color: rgb(9, 4, 63);
+
+.restIcon {
+    height: 25px;
+    width: 25px;
+}
+
+.startIcon {
+    height: 50px;
+    width: 50px;
+}
+
+.forwardIcon {
+    height: 25px;
+    width: 25px;
+}
+
+.soundonIcon {
+    height: 25px;
+    width: 25px;
+}
+
+.timerDisplay {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 250px;
+    height: 250px;
+    position: relative;
+}
+
+.Session-text {
+    width: 50px;
+    text-align: center;
+}
+
+.timerSvg {
+    transform: rotate(-90deg);
+    transform-origin: center;
+}
+
+/* #27B43E
+#C3BBBB */
+.timer-circle-track {
+    fill: none;
+    stroke: #C3BBBB;
+    stroke-width: 4px;
+}
+
+.timer-circle-progress {
+    fill: none;
+    stroke: #27B43E;
+    stroke-width: 4px;
+    stroke-linecap: round;
+    stroke-dasharray: 283;
+    stroke-dashoffset: 0;
+}
+
+.timercontrolDiv {
+    width: 330px;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0px;
+}
+
+.timeDisplay {
+    font-size: 40px;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform : translate(-50% , -50%);
+    z-index: 1;
+}
+
+.Session-text {
+    margin-right: 40px;
+}
+
+#restIcon {
+    margin-right: 20px;
+}
+
+#startIcon {
+    margin-right: 20px;
+}
+
+.forwardIcon {
+    margin-right: 20px;
+}
+
+.soundonIcon {
+    margin-left: 20px;
 }

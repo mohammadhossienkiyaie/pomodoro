@@ -14,19 +14,19 @@
             <div id="navbar-placeholder"></div>
             <div class="timerDiv" id="timerDiv">
                 <div class="timerDisplay" id="timerDisplay">
-                    <p class="timeDisplay">25:00</p>
+                    <p class="timeDisplay" id="timeDisplay">25:00</p>
                     <svg class="timerSvg" viewBox="0 0 100 100">
                         <circle class="timer-circle-track" cx="50" cy="50" r="45"></circle>
-                        <circle class="timer-circle-progress" cx="50" cy="50" r="45"></circle>
+                        <circle class="timer-circle-progress" id="progressCircle" cx="50" cy="50" r="45"></circle>
                     </svg>
                 </div>
             </div>
             <div class="timercontrolDiv">
                 <p class="Session-text">1/4 Sessions</p>
-                <img src="/img/icons/rest.svg" alt="restIcon" class="timerIcon , restIcon" id="restIcon">
-                <img src="/img/icons/start.svg" alt="startIcon" class="timerIcon , startIcon" id="startIcon">
-                <img src="/img/icons/forward.svg" alt="forwarIcon" class="timerIcon , forwardIcon" id="forwardIcon">
-                <img src="/img/icons/soundon.svg" alt="soundIcon" class="timerIcon , soundonIcon" id="soundIcon">
+                <div class="timerIcon , restIcon "></div>
+                <div class="timerIcon , startIcon"></div>
+                <div class="timerIcon , forwardIcon"></div>
+                <div class="timerIcon , soundIcon , smallIcon"></div>
             </div>
         </div>
     </div>

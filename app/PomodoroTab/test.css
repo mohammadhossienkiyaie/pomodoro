@@ -1,0 +1,12 @@
+*{
+    background-color: black;
+}
+.pic{
+    background-image: url('/img/icons/configIcon.svg');
+    background-size: cover;
+    width: 100px;
+    height: 100px;
+}
+.pic:hover{
+    background-image: url('/img/icons/configIcon-hover.svg');
+}

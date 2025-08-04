@@ -127,8 +127,8 @@ a {
 }
 
 .startIcon {
-    height: 50px;
-    width: 50px;
+    height: 60px;
+    width: 60px;
 }
 
 .forwardIcon {
@@ -150,7 +150,7 @@ a {
 }
 
 .Session-text {
-    width: 50px;
+    width: 53px;
     text-align: center;
 }
 
@@ -159,8 +159,6 @@ a {
     transform-origin: center;
 }
 
-/* #27B43E
-#C3BBBB */
 .timer-circle-track {
     fill: none;
     stroke: #C3BBBB;
@@ -177,30 +175,29 @@ a {
 }
 
 .timercontrolDiv {
-    width: 330px;
+    width: 320px;
     height: 60px;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
     padding: 0px;
-    margin-left: 15px;
+    margin-left: 10px;
     margin-top: 10px;
 }
 
 .timeDisplay {
-    font-size: 40px;
-    color: #C3BBBB;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1;
+    font-size: 45px;
+    text-align: center;
+    color: #27B43E;
+    top: 10px;
+    left: 20px;
 }
 
 .Session-text {
-    margin-right: 40px;
-    cursor:default;
+    margin-right: 30px;
+    cursor: default;
+    text-align: center;
 }
 
 .restIcon {
@@ -263,12 +260,46 @@ a {
     margin-top: 2px;
     cursor: pointer;
 }
+
 .soundIcon:hover {
     background-image: url('/img/icons/soundon-hover.svg');
 }
-.soundIcon.active{
-    background-image : url('/img/icons/mute.svg')
+
+.soundIcon.active {
+    background-image: url('/img/icons/mute.svg')
 }
-.soundIcon.active:hover{
+
+.soundIcon.active:hover {
     background-image: url('/img/icons/mute-hover.svg');
+}
+/* fouces icon and circle animation */
+.foucesDivText {
+    font-size: 20px;
+    text-align: center;
+}
+
+.foucesDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+
+}
+
+.foucesPic {
+    display: flex;
+    width: 50px;
+    height: 50px;
+    background-image: url('/img/icons/focusTime.svg');
+    background-size: cover;
+    padding: 0px;
+}
+
+.foucesDivItem {
+    display: flex;
+
 }

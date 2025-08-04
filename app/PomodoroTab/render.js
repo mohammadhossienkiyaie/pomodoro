@@ -112,14 +112,94 @@ const forwardIcon = document.getElementById('forwardIcon');
 const soundIcon = document.getElementById('soundIcon');
 
 function controllTimerIcon() {
-    startIcon.addEventListener('click' , ()=>{
+    startIcon.addEventListener('click', () => {
         startIcon.classList.toggle('active');
     })
-    soundIcon.addEventListener('click' , () =>{
+    soundIcon.addEventListener('click', () => {
         soundIcon.classList.toggle('active');
     })
 }
-
 document.addEventListener('DOMContentLoaded', controllTimerIcon);
 
 // timer 
+const progressCircle = document.getElementById('progressCircle');
+const timeDisplay = document.getElementById('timeDisplay');
+const foucesPic = document.getElementById('foucesPic');
+
+const starterTimer = {
+    'focusTime' : 25 * 60 , 
+    'shortBreakTime' : 5 * 60 ,
+    'longBreakTime' : 15 * 60 ,
+}
+let isWorkTime = true ; 
+let cycleCount = 0 ; 
+const duration = 1500;
+let leftTime = 0;
+let intervalId = null;
+
+function formatTime(timeInSeconds) {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = timeInSeconds % 60;
+    const formatMinutes = String(minutes).padStart(2, '0');
+    const formatSeconds = String(seconds).padStart(2, '0');
+    // return the result 
+    return `${formatMinutes}:${formatSeconds}`;
+}
+function startTimer() {
+    const circumference = 2 * Math.PI * 45;
+    progressCircle.style.strokeDasharray = circumference;
+    leftTime = duration;
+    if(isWorkTime){
+        timer = starterTimer['focusTime'];
+    }else{
+        if(cycleCount === 4){
+            timer = starterTimer['longBreakTime'];
+        }else{
+            timer = starterTimer['shortBreakTime']
+        }
+    }
+    intervalId = setInterval(() => {
+        leftTime--;
+        const formattedTime = formatTime(leftTime);
+        timeDisplay.textContent = formattedTime;
+
+        const offest = circumference * (leftTime / duration);
+        progressCircle.style.strokeDashoffset = offest;
+
+
+        if (leftTime <= 0) {
+            if(isWorkTime){
+                cycleCount++; 
+                isWorkTime = false ; 
+            }else{
+                isWorkTime = true;
+            }
+            clearInterval(intervalId);
+            intervalId = null ;
+            startTimer();
+        }
+    }, 1000);
+};
+function restTimer() {
+    clearInterval(intervalId);
+    intervalId = null ; 
+}
+startIcon.addEventListener('click', function () {
+    if (intervalId === null) {
+        startTimer();
+        foucesPic.style.backgroundImage = "url('/img/icons/focusTime-active.svg')";
+    } else {
+        stopTimer();
+        foucesPic.style.backgroundImage = "url('/img/icons/focusTime.svg')";
+    }
+});
+function stopTimer() {
+    clearInterval(intervalId);
+    intervalId = null;
+}
+resetIcon.addEventListener('click', function () {
+    restTimer();
+    timeDisplay.textContent = '25:00';
+    progressCircle.style.strokeDashoffset = '0';
+    startIcon.style.backgroundImage = "url('/img/icons/start.svg')";
+})

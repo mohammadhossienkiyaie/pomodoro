@@ -232,24 +232,28 @@ a {
     height: 30px;
 }
 
-/* starticon hover and active  */
+/* start icon hover and active  */
 .startIcon {
     background-image: url('/img/icons/start.svg');
     background-size: cover;
     margin-right: 20px;
     cursor: pointer;
 }
-
 .startIcon:hover {
     background-image: url('/img/icons/start-hover.svg');
 }
 
-.startIcon.active {
+.startIcon.is-running {
     background-image: url('/img/icons/pause.svg');
 }
-
-.startIcon.active:hover {
+.startIcon.is-running:hover {
     background-image: url('/img/icons/pause-hover.svg');
+}
+.pauseIcon{
+    background-image: url('/img/icons/pause.svg');    
+}
+.pauseIcon:hover{
+    background-image: url('/img/icons/start.svg');
 }
 
 /* sound icon hover and active  */
@@ -272,6 +276,7 @@ a {
 .soundIcon.active:hover {
     background-image: url('/img/icons/mute-hover.svg');
 }
+
 /* fouces icon and circle animation */
 .foucesDivText {
     font-size: 20px;

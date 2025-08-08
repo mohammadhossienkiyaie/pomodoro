@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="configstyle.css">
+    <title>configTab</title>
+</head>
+
+<body>
+    <div class="mainDiv">
+        <div class="appDiv">
+            <div class="titleBar">
+                <div class="iconDiv">
+                    <img src="../../img/appIcon.png" alt="appicon" class="appIcon">
+                    <p class="titleText">FocusPlus v1.0</p>
+                </div>
+                <div class="titleDiv">
+                    <img src="../../img/icons/minimize.svg" alt="minimizePic" class="titleIcon , minIcon" id="minimize">
+                    <img src="../../img/icons/exit.svg" alt="exitIcon" class="titleIcon , exitIcon" id="exit">
+                </div>
+            </div>
+            <nav class="main-menu">
+                <a href="/app/NoteTab/Note.html" class="menu-item-link">
+                    <div class="menu-item-container">
+                        <img src="/img/icons/noteIcon.svg" alt="noteIcon" class="menu-icon" , id="noteIcon">
+                        <p class="menu-text">Note</p>
+                        <div class="menu-underline"></div>
+                    </div>
+                </a>
+
+                <a href="/app/ConfigTab/Config.html" class="menu-item-link">
+                    <div class="menu-item-container">
+                        <img src="/img/icons/configIcon.svg" alt="configIcon" class="menu-icon" id="configIcon">
+                        <p class="menu-text">Config</p>
+                        <div class="menu-underline"></div>
+                    </div>
+                </a>
+
+                <a href="/app/PomodoroTab/FocusPlus.html" class="menu-item-link">
+                    <div class="menu-item-container">
+                        <img src="/img/icons/timerIcon.svg" alt="timerIcon" class="menu-icon" id="timerIcon">
+                        <p class="menu-text">Timer</p>
+                        <div class="menu-underline"></div>
+                    </div>
+                </a>
+
+                <a href="/app/SettingTab/Setting.html" class="menu-item-link">
+                    <div class="menu-item-container">
+                        <img src="/img/icons/settingIcon.svg" alt="settingIcon" class="menu-icon" id="settingIcon">
+                        <p class="menu-text ">Setting</p>
+                        <div class="menu-underline"></div>
+                    </div>
+                </a>
+            </nav>
+            <div class="setting">
+                <div class="ruleDiv">
+                    <p class="ruleText">Rules</p>
+                    <p class="restButton" id="restBtn">Restore Setting</p>
+                </div>
+                <div class="settingButton">
+                    <div class="focusRangeDiv">
+                        <div class="rangeTextDiv">
+                            <p class="rangeTexts">Focus</p>
+                            <p id="focusselectedTime" class="rangetext , restText"></p>
+                        </div>
+                        <input type="range" name="Focusrange" min="1" max="120" value="25" id="Focusrange" class='restRange'
+                            >
+                    </div>
+                    <div>
+                        <div class="rangeTextDiv">
+                            <p class="rangeTexts">Short break </p>
+                            <p class="selectedTime , restText">min</p>
+                        </div>
+                        <input type="range" name="Shortrange" min="1" max="60" value="5"  class="rangeInput , restRange" id="breakRange">
+                    </div>
+                    <div>
+                        <div class="rangeTextDiv">
+                            <p class="rangeTexts">Long break </p>
+                            <p class="selectedTime , restText">min</p>
+                        </div>
+                        <input type="range" name="Longrange" min="1" max="60" value="15"  class="rangeInput , restRange" id="longBreakRange">
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
+                <div class="infoDiv"></div>
+            </div>
+        </div>
+    </div>
+    <script src="/app/ConfigTab/render.js"></script>
+</body>
+
+</html>

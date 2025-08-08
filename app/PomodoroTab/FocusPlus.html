@@ -11,7 +11,49 @@
 <body>
     <div class="mainDiv">
         <div class="appDiv">
-            <div id="navbar-placeholder"></div>
+            <div class="titleBar">
+                <div class="iconDiv">
+                    <img src="../../img/appIcon.png" alt="appicon" class="appIcon">
+                    <p class="titleText">FocusPlus v1.0</p>
+                </div>
+                <div class="titleDiv">
+                    <img src="../../img/icons/minimize.svg" alt="minimizePic" class="titleIcon , minIcon" id="minimize">
+                    <img src="../../img/icons/exit.svg" alt="exitIcon" class="titleIcon , exitIcon" id="exit">
+                </div>
+            </div>
+            <nav class="main-menu">
+                <a href="/app/NoteTab/Note.html" class="menu-item-link">
+                    <div class="menu-item-container">
+                        <img src="/img/icons/noteIcon.svg" alt="noteIcon" class="menu-icon" , id="noteIcon">
+                        <p class="menu-text">Note</p>
+                        <div class="menu-underline"></div>
+                    </div>
+                </a>
+
+                <a href="/app/ConfigTab/Config.html" class="menu-item-link">
+                    <div class="menu-item-container">
+                        <img src="/img/icons/configIcon.svg" alt="configIcon" class="menu-icon" id="configIcon">
+                        <p class="menu-text">Config</p>
+                        <div class="menu-underline"></div>
+                    </div>
+                </a>
+
+                <a href="/app/PomodoroTab/FocusPlus.html" class="menu-item-link">
+                    <div class="menu-item-container">
+                        <img src="/img/icons/timerIcon.svg" alt="timerIcon" class="menu-icon" id="timerIcon">
+                        <p class="menu-text">Timer</p>
+                        <div class="menu-underline"></div>
+                    </div>
+                </a>
+
+                <a href="/app/SettingTab/Setting.html" class="menu-item-link">
+                    <div class="menu-item-container">
+                        <img src="/img/icons/settingIcon.svg" alt="settingIcon" class="menu-icon" id="settingIcon">
+                        <p class="menu-text ">Setting</p>
+                        <div class="menu-underline"></div>
+                    </div>
+                </a>
+            </nav>
             <div class="timerDiv" id="timerDiv">
                 <div class="timerDisplay" id="timerDisplay">
                     <div class="foucesDiv">

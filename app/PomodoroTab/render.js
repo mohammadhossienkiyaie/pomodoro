@@ -21,25 +21,6 @@ const iconPath = {
     }
 };
 
-document.addEventListener('DOMContentLoaded', function () {
-    fetch('navbar.html').then(Response => {
-        if (!Response.ok) {
-            throw new Error('the navigation file not found !' + Response.statusText);
-        }
-        return Response.text();
-    }).then(html => {
-        const navbarPlaceholder = document.getElementById('navbar-placeholder');
-        if (navbarPlaceholder) {
-            navbarPlaceholder.innerHTML = html;
-            initializeMenuHoverEffects();
-            initializetTopbarHoverEffects();
-        } else {
-            console.error(' the element with navbar-placeholder not found!');
-        }
-    }).catch(error => console.error('faild to load nav', error));
-});
-
-// function for apply style 
 function initializeMenuHoverEffects() {
     const allMenuItem = document.querySelectorAll('.menu-item-link');
     const hoverColor = '#27B43E';
@@ -104,6 +85,8 @@ function initializetTopbarHoverEffects() {
         })
     }
 }
+initializeMenuHoverEffects();
+initializetTopbarHoverEffects();
 
 // hover controll buttons 
 const resetIcon = document.getElementById('restIcon');

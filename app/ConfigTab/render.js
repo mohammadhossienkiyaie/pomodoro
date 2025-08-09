@@ -97,10 +97,68 @@ const starterTimer = {
     'longBreaktime': 15 * 60,
 };
 
+document.addEventListener('DOMContentLoaded', function () {
+    const focusRange = document.getElementById('Focusrange');
+    const shortBreakRange = document.getElementById('breakRange');
+    const longBreakRange = document.getElementById('longBreakRange');
+
+    const focusText = document.getElementById('focusselectedTime');
+    const shortText = document.getElementById('shortSelectedTime');
+    const longText = document.getElementById('longSelectedTime');
+
+    function updateAndSaveValue() {
+        if (focusRange) {
+            const focusMinute = parseFloat(focusRange.value);
+            starterTimer.focusTime = parseFloat(focusRange.value) * 60;
+            localStorage.setItem('focusTime', focusMinute);
+            if (focusText) focusText.textContent = `${focusMinute} Mins`;
+        }
+        if (shortBreakRange) {
+            const shortBreakMinute = parseFloat(shortBreakRange.value);
+            starterTimer.shortBreaktime = parseFloat(shortBreakRange.value) * 60;
+            localStorage.setItem('shortBreakRange', shortBreakMinute);
+            if (shortText) shortText.textContent = `${shortBreakMinute} Mins`;
+        }
+        if (longBreakRange) {
+            const longBreakMinute = parseFloat(longBreakRange.value);
+            starterTimer.longBreaktime = parseFloat(longBreakRange.value) * 60;
+            localStorage.setItem('longBreakRange', longBreakMinute);
+            if (longText) longText.textContent = `${longBreakMinute} Mins`;
+        }
+    }
+    function loadValue() {
+        const savedFocus = localStorage.getItem('focusTime');
+        const shortBreak = localStorage.getItem('shortBreakRange');
+        const longBreak = localStorage.getItem('longBreakRange');
+
+        if (focusRange && savedFocus !== null) {
+            focusRange.value = savedFocus;
+        }
+        if (shortBreakRange && shortBreak !== null) {
+            shortBreakRange.value = shortBreak;
+        }
+        if (longBreakRange && longBreak !== null) {
+            longBreakRange.value = longBreak;
+        }
+        updateAndSaveValue();
+    }
+    if (focusRange) {
+        focusRange.addEventListener('input', updateAndSaveValue);
+    }
+    if (shortBreakRange) {
+        shortBreakRange.addEventListener('input', updateAndSaveValue);
+    }
+    if (longBreakRange) {
+        longBreakRange.addEventListener('input', updateAndSaveValue);
+    }
+    loadValue();
+})
+
+
 const focusRange = document.getElementById('Focusrange');
 const output = document.getElementById('focusselectedTime');
-// default value for 3 ranges in config tab 
 
+// default value for 3 ranges in config tab 
 output.innerHTML = `${focusRange.value} Mins`;
 updateGradient(focusRange.value);
 focusRange.oninput = function () {
@@ -142,9 +200,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const restBtn = document.getElementById('restBtn');
 
     const defaultValue = {
-        focus: inputRange[0].value,
-        shortbreak: inputRange[1].value,
-        longbreak: inputRange[2].value,
+        focus: 25,
+        shortbreak: 5,
+        longbreak: 15,
     };
 
     function restall() {
@@ -155,28 +213,34 @@ document.addEventListener('DOMContentLoaded', function () {
         textRange[0].textContent = `${defaultValue.focus} Mins`;
         textRange[1].textContent = `${defaultValue.shortbreak} Mins`;
         textRange[2].textContent = `${defaultValue.longbreak} Mins`;
+
+        inputRange.forEach(input => {
+            updateRangeBackground(input);
+        });
     }
     function result(changeValue) {
         const defaultvalue = restBtn.textContent;
-        restBtn.textContent = changeValue; 
+        restBtn.textContent = changeValue;
         setTimeout(() => {
-            restBtn.textContent = defaultvalue ; 
+            restBtn.textContent = defaultvalue;
         }, 1000);
     }
-    function updateRangeBackground(inputRange){
-        const value = inputRange.value ; 
-        const percentage = ((value - inputRange.min) / (inputRange.max - inputRange.min)) * 100;
-        inputRange.style.background = `linear-gradient(to right, green 0%, green ${percentage}%, #C3BBBB ${percentage}%, #C3BBBB 100%)`;
+    function updateRangeBackground(inputRange) {
+        const value = inputRange.value;
+        const min = parseFloat(inputRange.min);
+        const max = parseFloat(inputRange.max);
+        const percentage = ((value - min) / (max - min)) * 100;
+        inputRange.style.background = `linear-gradient(to right, #27B43E 0%, #27B43E ${percentage}%, #C3BBBB ${percentage}%, #C3BBBB 100%)`;
     }
-    function restButton(){
+    function restButton() {
         restall();
-        updateRangeBackground();
     }
     if (restBtn) {
         restBtn.addEventListener('click', restButton);
         restBtn.addEventListener('click', () => {
-            result('Restored Successfully')
+            result('Restored Successfully');
         });
+        inputRange.forEach(input => updateRangeBackground(input));
     }
 })
 

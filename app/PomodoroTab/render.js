@@ -110,10 +110,27 @@ const timeDisplay = document.getElementById('timeDisplay');
 const foucesPic = document.getElementById('foucesPic');
 
 const starterTimer = {
-    'focusTime': 0.3 * 60,
-    'shortBreakTime': 0.2 * 60,
-    'longBreakTime': 0.1 * 60,
-}
+    'focusTime': 25 * 60 , 
+    'shortBreaktime': 5 * 60,
+    'longBreaktime': 15 * 60,
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+    const savedFocusTime = localStorage.getItem('focusTime');
+    const savedShortBreakTime = localStorage.getItem('shortBreakTime');
+    const savedLongBreakTime = localStorage.getItem('longBreakTime');
+
+    if (savedFocusTime !== null) {
+        starterTimer.focusTime = parseFloat(savedFocusTime) * 60;
+    }
+    if (savedShortBreakTime !== null) {
+        starterTimer.shortBreaktime = parseFloat(savedShortBreakTime) * 60;
+    }
+    if (savedLongBreakTime !== null) {
+        starterTimer.longBreaktime = parseFloat(savedLongBreakTime) * 60;
+    }
+});
+
 let isWorkTime = true;
 let cycleCount = 0;
 let totalDuration;
@@ -128,6 +145,11 @@ function formatTime(timeInSeconds) {
     // return the result 
     return `${formatMinutes}:${formatSeconds}`;
 }
+
+document.addEventListener('DOMContentLoaded' , function(){
+    const timeDisplay = document.getElementById('timeDisplay');
+    const savedEndTime = localStorage.getItem('timerEndTime');
+})
 
 function startTimer() {
     if (intervalId !== null) return;

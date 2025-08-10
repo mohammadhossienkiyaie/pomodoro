@@ -1,23 +1,23 @@
 const iconPath = {
     'noteIcon': {
-        default: '/img/icons/noteIcon.svg',
-        hover: '/img/icons/noteIcon-hover.svg'
+        default: '/icons/noteIcon.svg',
+        hover: '/icons/noteIcon-hover.svg'
     },
     'configIcon': {
-        default: '/img/icons/configIcon.svg',
-        hover: '/img/icons/configIcon-hover.svg'
+        default: '/icons/configIcon.svg',
+        hover: '/icons/configIcon-hover.svg'
     },
     'timerIcon': {
-        default: '/img/icons/timerIcon.svg',
-        hover: '/img/icons/timerIcon-hover.svg'
+        default: '/icons/timerIcon.svg',
+        hover: '/icons/timerIcon-hover.svg'
     },
     'settingIcon': {
-        default: '/img/icons/settingIcon.svg',
-        hover: '/img/icons/settingIcon-hover.svg'
+        default: '/icons/settingIcon.svg',
+        hover: '/icons/settingIcon-hover.svg'
     },
     'startIcon': {
-        clicked: '/img/icons/pause.svg',
-        clickedHover: '/img/icons/pause-hover.svg'
+        clicked: '/icons/pause.svg',
+        clickedHover: '/icons/pause-hover.svg'
     }
 };
 
@@ -59,10 +59,10 @@ function initializeMenuHoverEffects() {
 function initializetTopbarHoverEffects() {
     const exitIcon = document.getElementById('exit');
     const minIcon = document.getElementById('minimize');
-    const defaultIconExit = '/img/icons/exit.svg';
-    const hoverIconExit = '/img/icons/exit-hover.svg';
-    const defaultIconmin = '/img/icons/minimize.svg';
-    const hoverIconmin = '/img/icons/minimize-hover.svg';
+    const defaultIconExit = '/icons/exit.svg';
+    const hoverIconExit = '/icons/exit-hover.svg';
+    const defaultIconmin = '/icons/minimize.svg';
+    const hoverIconmin = '/icons/minimize-hover.svg';
 
     exitIcon.style.cursor = 'pointer';
     minIcon.style.cursor = 'pointer';

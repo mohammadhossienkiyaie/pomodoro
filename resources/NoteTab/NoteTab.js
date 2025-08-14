@@ -1,23 +1,23 @@
 const iconPath = {
     'noteIcon': {
-        default: '../../resources/icons/noteIcon.svg',
-        hover: '../../resources/icons/noteIcon-hover.svg'
+        default: '../icons/noteIcon.svg',
+        hover: '../icons/noteIcon-hover.svg'
     },
     'configIcon': {
-        default: '../../resources/icons/configIcon.svg',
-        hover: '../../resources/icons/configIcon-hover.svg'
+        default: '../icons/configIcon.svg',
+        hover: '../icons/configIcon-hover.svg'
     },
     'timerIcon': {
-        default: '../../resources/icons/timerIcon.svg',
-        hover: '../../resources/icons/timerIcon-hover.svg'
+        default: '../icons/timerIcon.svg',
+        hover: '../icons/timerIcon-hover.svg'
     },
     'settingIcon': {
-        default: '../../resources/icons/settingIcon.svg',
-        hover: '../../resources/icons/settingIcon-hover.svg'
+        default: '../icons/settingIcon.svg',
+        hover: '../icons/settingIcon-hover.svg'
     },
     'startIcon': {
-        clicked: '../../resources/icons/pause.svg',
-        clickedHover: '../../resources/icons/pause-hover.svg'
+        clicked: '../icons/pause.svg',
+        clickedHover: '../icons/pause-hover.svg'
     }
 };
 
@@ -59,10 +59,10 @@ function initializeMenuHoverEffects() {
 function initializetTopbarHoverEffects() {
     const exitIcon = document.getElementById('exit');
     const minIcon = document.getElementById('minimize');
-    const defaultIconExit = '../../resources/icons/exit.svg';
-    const hoverIconExit = '../../resources/icons/exit-hover.svg';
-    const defaultIconmin = '../../resources/icons/minimize.svg';
-    const hoverIconmin = '../../resources/icons/minimize-hover.svg';
+    const defaultIconExit = '../icons/exit.svg';
+    const hoverIconExit = '../icons/exit-hover.svg';
+    const defaultIconmin = '../icons/minimize.svg';
+    const hoverIconmin = '../icons/minimize-hover.svg';
 
     exitIcon.style.cursor = 'pointer';
     minIcon.style.cursor = 'pointer';

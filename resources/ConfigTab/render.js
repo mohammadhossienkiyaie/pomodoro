@@ -1,23 +1,23 @@
 const iconPath = {
     'noteIcon': {
-        default: '../../resources/icons/noteIcon.svg',
-        hover: '../../resources/icons/noteIcon-hover.svg'
+        default: '../icons/noteIcon.svg',
+        hover: '../icons/noteIcon-hover.svg'
     },
     'configIcon': {
-        default: '../../resources/icons/configIcon.svg',
-        hover: '../../resources/icons/configIcon-hover.svg'
+        default: '../icons/configIcon.svg',
+        hover: '../icons/configIcon-hover.svg'
     },
     'timerIcon': {
-        default: '../../resources/icons/timerIcon.svg',
-        hover: '../../resources/icons/timerIcon-hover.svg'
+        default: '../icons/timerIcon.svg',
+        hover: '../icons/timerIcon-hover.svg'
     },
     'settingIcon': {
-        default: '../../resources/icons/settingIcon.svg',
-        hover: '../../resources/icons/settingIcon-hover.svg'
+        default: '../icons/settingIcon.svg',
+        hover: '../icons/settingIcon-hover.svg'
     },
     'startIcon': {
-        clicked: '../../resources/icons/pause.svg',
-        clickedHover: '../../resources/icons/pause-hover.svg'
+        clicked: '../icons/pause.svg',
+        clickedHover: '../icons/pause-hover.svg'
     }
 };
 
@@ -59,10 +59,10 @@ function initializeMenuHoverEffects() {
 function initializetTopbarHoverEffects() {
     const exitIcon = document.getElementById('exit');
     const minIcon = document.getElementById('minimize');
-    const defaultIconExit = '../../resources/icons/exit.svg';
-    const hoverIconExit = '../../resources/icons/exit-hover.svg';
-    const defaultIconmin = '../../resources/icons/minimize.svg';
-    const hoverIconmin = '../../resources/icons/minimize-hover.svg';
+    const defaultIconExit = '../icons/exit.svg';
+    const hoverIconExit = '../icons/exit-hover.svg';
+    const defaultIconmin = '../icons/minimize.svg';
+    const hoverIconmin = '../icons/minimize-hover.svg';
 
     exitIcon.style.cursor = 'pointer';
     minIcon.style.cursor = 'pointer';
@@ -93,8 +93,8 @@ initializetTopbarHoverEffects();
 // for focus range 
 const starterTimer = {
     'focusTime': 25 * 60,
-    'shortBreaktime': 5 * 60,
-    'longBreaktime': 15 * 60,
+    'shortBreakTime': 5 * 60,  
+    'longBreakTime': 15 * 60, 
 };
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -109,39 +109,44 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateAndSaveValue() {
         if (focusRange) {
             const focusMinute = parseFloat(focusRange.value);
-            starterTimer.focusTime = parseFloat(focusRange.value) * 60;
-            localStorage.setItem('focusTime', focusMinute);
+            starterTimer.focusTime = focusMinute * 60;
+            localStorage.setItem('focusTime', focusMinute.toString());
             if (focusText) focusText.textContent = `${focusMinute} Mins`;
         }
         if (shortBreakRange) {
             const shortBreakMinute = parseFloat(shortBreakRange.value);
-            starterTimer.shortBreaktime = parseFloat(shortBreakRange.value) * 60;
-            localStorage.setItem('shortBreakRange', shortBreakMinute);
+            starterTimer.shortBreakTime = shortBreakMinute * 60;
+            localStorage.setItem('shortBreakTime', shortBreakMinute.toString()); 
             if (shortText) shortText.textContent = `${shortBreakMinute} Mins`;
         }
         if (longBreakRange) {
             const longBreakMinute = parseFloat(longBreakRange.value);
-            starterTimer.longBreaktime = parseFloat(longBreakRange.value) * 60;
-            localStorage.setItem('longBreakRange', longBreakMinute);
+            starterTimer.longBreakTime = longBreakMinute * 60;
+            localStorage.setItem('longBreakTime', longBreakMinute.toString()); 
             if (longText) longText.textContent = `${longBreakMinute} Mins`;
         }
     }
+
     function loadValue() {
         const savedFocus = localStorage.getItem('focusTime');
-        const shortBreak = localStorage.getItem('shortBreakRange');
-        const longBreak = localStorage.getItem('longBreakRange');
+        const shortBreak = localStorage.getItem('shortBreakTime'); 
+        const longBreak = localStorage.getItem('longBreakTime'); 
 
         if (focusRange && savedFocus !== null) {
             focusRange.value = savedFocus;
+            starterTimer.focusTime = parseFloat(savedFocus) * 60;
         }
         if (shortBreakRange && shortBreak !== null) {
             shortBreakRange.value = shortBreak;
+            starterTimer.shortBreakTime = parseFloat(shortBreak) * 60;
         }
         if (longBreakRange && longBreak !== null) {
             longBreakRange.value = longBreak;
+            starterTimer.longBreakTime = parseFloat(longBreak) * 60;
         }
         updateAndSaveValue();
     }
+
     if (focusRange) {
         focusRange.addEventListener('input', updateAndSaveValue);
     }
@@ -152,8 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
         longBreakRange.addEventListener('input', updateAndSaveValue);
     }
     loadValue();
-})
-
+});
 
 const focusRange = document.getElementById('Focusrange');
 const output = document.getElementById('focusselectedTime');

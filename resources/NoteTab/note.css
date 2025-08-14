@@ -242,13 +242,13 @@ a {
 .removeIcon{
     width: 23px;
     height: 23px;
-    background-image: url('../../resources/icons/delete.svg') ;
+    background-image: url('../icons/delete.svg') ;
     background-size: cover;
     margin-right: 5px;
     cursor: pointer;
 }
 .removeIcon:hover{
-    background-image: url('../../resources/icons/delete-hover.svg');
+    background-image: url('../icons/delete-hover.svg');
 }
 .taskContent{
     display: flex;

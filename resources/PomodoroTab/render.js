@@ -1,23 +1,62 @@
+document.addEventListener('DOMContentLoaded', async () => {
+  await Neutralino.init();
+  
+  // Minimize
+  document.getElementById('minimize-btn').addEventListener('click', () => {
+    Neutralino.window.minimize();
+  });
+  
+  // Close
+  document.getElementById('close-btn').addEventListener('click', () => {
+    Neutralino.app.exit();
+  });
+  
+  // درگ پنجره
+  const titleBar = document.getElementById('title-bar');
+  let isDragging = false;
+  let offsetX, offsetY;
+  
+  titleBar.addEventListener('mousedown', (e) => {
+    if (e.target.closest('.window-controls') === null) {
+      isDragging = true;
+      offsetX = e.clientX;
+      offsetY = e.clientY;
+    }
+  });
+  
+  document.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+      Neutralino.window.setPosition({
+        x: e.screenX - offsetX,
+        y: e.screenY - offsetY
+      });
+    }
+  });
+  
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+  });
+});
 const iconPath = {
     'noteIcon': {
-        default: '../../resources/icons/noteIcon.svg',
-        hover: '../../resources/icons/noteIcon-hover.svg'
+        default: '../icons/noteIcon.svg',
+        hover: '../icons/noteIcon-hover.svg'
     },
     'configIcon': {
-        default: '../../resources/icons/configIcon.svg',
-        hover: '../../resources/icons/configIcon-hover.svg'
+        default: '../icons/configIcon.svg',
+        hover: '../icons/configIcon-hover.svg'
     },
     'timerIcon': {
-        default: '../../resources/icons/timerIcon.svg',
-        hover: '../../resources/icons/timerIcon-hover.svg'
+        default: '../icons/timerIcon.svg',
+        hover: '../icons/timerIcon-hover.svg'
     },
     'settingIcon': {
-        default: '../../resources/icons/settingIcon.svg',
-        hover: '../../resources/icons/settingIcon-hover.svg'
+        default: '../icons/settingIcon.svg',
+        hover: '../icons/settingIcon-hover.svg'
     },
     'startIcon': {
-        clicked: '../../resources/icons/pause.svg',
-        clickedHover: '../../resources/icons/pause-hover.svg'
+        clicked: '../icons/pause.svg',
+        clickedHover: '../icons/pause-hover.svg'
     }
 };
 
@@ -59,10 +98,10 @@ function initializeMenuHoverEffects() {
 function initializetTopbarHoverEffects() {
     const exitIcon = document.getElementById('exit');
     const minIcon = document.getElementById('minimize');
-    const defaultIconExit = '../../resources/icons/exit.svg';
-    const hoverIconExit = '../../resources/icons/exit-hover.svg';
-    const defaultIconmin = '../../resources/icons/minimize.svg';
-    const hoverIconmin = '../../resources/icons/minimize-hover.svg';
+    const defaultIconExit = '../icons/exit.svg';
+    const hoverIconExit = '../icons/exit-hover.svg';
+    const defaultIconmin = '../icons/minimize.svg';
+    const hoverIconmin = '../icons/minimize-hover.svg';
 
     exitIcon.style.cursor = 'pointer';
     minIcon.style.cursor = 'pointer';
@@ -96,6 +135,7 @@ const soundIcon = document.getElementById('soundIcon');
 const progressCircle = document.getElementById('progressCircle');
 const timeDisplay = document.getElementById('timeDisplay');
 const foucesPic = document.getElementById('foucesPic');
+const updateSession = document.getElementById('updateSession');
 
 function controllTimerIcon() {
     soundIcon.addEventListener('click', () => {
@@ -104,13 +144,12 @@ function controllTimerIcon() {
 }
 document.addEventListener('DOMContentLoaded', controllTimerIcon);
 
-const starterTimer = {
+let starterTimer = {
     'focusTime': 25 * 60,
     'shortBreakTime': 5 * 60, 
     'longBreakTime': 15 * 60,  
 };
 
-// --- متغیرهای وضعیت تایمر ---
 let isWorkTime = true;
 let cycleCount = 0;
 let totalDuration = starterTimer.focusTime;
@@ -118,7 +157,6 @@ let leftTime = 0;
 let intervalId = null;
 const circumference = 2 * Math.PI * 45;
 
-// --- توابع کمکی ---
 function formatTime(timeInSeconds) {
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = timeInSeconds % 60;
@@ -133,7 +171,6 @@ function updateProgressCircle() {
     progressCircle.style.strokeDashoffset = offset;
 }
 
-// --- توابع اصلی تایمر ---
 function startTimer() {
     if (intervalId !== null) return;
 
@@ -206,7 +243,6 @@ function resetTimer() {
     localStorage.removeItem('timerIsRunning');
 }
 
-// --- رویدادهای کلیک ---
 startIcon.addEventListener('click', function () {
     if (intervalId === null) {
         startTimer();
@@ -219,18 +255,16 @@ resetIcon.addEventListener('click', function () {
     resetTimer();
 });
 
-// --- رویداد اصلی بارگذاری صفحه ---
+
 document.addEventListener('DOMContentLoaded', function () {
     const savedFocusTime = localStorage.getItem('focusTime');
     if (savedFocusTime) {
         starterTimer.focusTime = parseFloat(savedFocusTime) * 60;
-    }
-    
+    } 
     const savedShortBreakTime = localStorage.getItem('shortBreakTime');
     if (savedShortBreakTime) {
         starterTimer.shortBreakTime = parseFloat(savedShortBreakTime) * 60;
     }
-    
     const savedLongBreakTime = localStorage.getItem('longBreakTime');
     if (savedLongBreakTime) {
         starterTimer.longBreakTime = parseFloat(savedLongBreakTime) * 60;

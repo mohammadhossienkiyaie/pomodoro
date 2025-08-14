@@ -1,11 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NoteTab</title>
+    <link rel="stylesheet" href="note.css">
+    <title>taskList</title>
 </head>
+
 <body>
-    <p>test paragraph</p>
+    <div class="mainDiv">
+        <div class="appDiv">
+            <div class="titleBar">
+                <div class="iconDiv">
+                    <img src="../../resources/icons/appIcon.png" alt="appicon" class="appIcon">
+                    <p class="titleText">FocusPlus v1.0</p>
+                </div>
+                <div class="titleDiv">
+                    <img src="../../resources/icons/minimize.svg" alt="minimizePic" class="titleIcon , minIcon"
+                        id="minimize">
+                    <img src="../../resources/icons/exit.svg" alt="exitIcon" class="titleIcon , exitIcon" id="exit">
+                </div>
+            </div>
+            <nav class="main-menu">
+                <a href="/app/NoteTab/Note.html" class="menu-item-link">
+                    <div class="menu-item-container">
+                        <img src="../../resources/icons/noteIcon.svg" alt="noteIcon" class="menu-icon" , id="noteIcon">
+                        <p class="menu-text">Note</p>
+                        <div class="menu-underline"></div>
+                    </div>
+                </a>
+
+                <a href="../ConfigTab/Config.html" class="menu-item-link">
+                    <div class="menu-item-container">
+                        <img src="../../resources/icons/configIcon.svg" alt="configIcon" class="menu-icon"
+                            id="configIcon">
+                        <p class="menu-text">Config</p>
+                        <div class="menu-underline"></div>
+                    </div>
+                </a>
+
+                <a href="../PomodoroTab/FocusPlus.html" class="menu-item-link">
+                    <div class="menu-item-container">
+                        <img src="../../resources/icons/timerIcon.svg" alt="timerIcon" class="menu-icon" id="timerIcon">
+                        <p class="menu-text">Timer</p>
+                        <div class="menu-underline"></div>
+                    </div>
+                </a>
+            </nav>
+            <div class="noteDiv" id="noteDiv">
+                <div id="taskListDiv"></div>
+                <div class="addNoteDiv" id="addNoteDiv">
+                    <input type="button" class="addNoteButton" value="+ Add Task" id="addNoteButton">
+                </div>
+                <div class="divSubmitBtn" id="buttonDiv">
+                    <button type="submit" class="inputActionBtn , addBtn" id="addBtn">Add List</button>
+                    <button type="submit" class="inputActionBtn , cancelBtn" id="cancelBtn">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/resources/NoteTab/NoteTab.js"></script>
 </body>
+
 </html>

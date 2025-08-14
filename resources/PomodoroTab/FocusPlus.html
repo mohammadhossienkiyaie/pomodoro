@@ -13,18 +13,18 @@
         <div class="appDiv">
             <div class="titleBar">
                 <div class="iconDiv">
-                    <img src="/icons/appIcon.png" alt="appicon" class="appIcon">
+                    <img src="../../resources/icons/appIcon.png" alt="appicon" class="appIcon">
                     <p class="titleText">FocusPlus v1.0</p>
                 </div>
                 <div class="titleDiv">
-                    <img src="/icons/minimize.svg" alt="minimizePic" class="titleIcon , minIcon" id="minimize">
-                    <img src="/icons/exit.svg" alt="exitIcon" class="titleIcon , exitIcon" id="exit">
+                    <img src="../../resources/icons/minimize.svg" alt="minimizePic" class="titleIcon , minIcon" id="minimize">
+                    <img src="../../resources/icons/exit.svg" alt="exitIcon" class="titleIcon , exitIcon" id="exit">
                 </div>
             </div>
             <nav class="main-menu">
-                <a href="/app/NoteTab/Note.html" class="menu-item-link">
+                <a href="../NoteTab/Note.html" class="menu-item-link">
                     <div class="menu-item-container">
-                        <img src="/icons/noteIcon.svg" alt="noteIcon" class="menu-icon" , id="noteIcon">
+                        <img src="../../resources/icons/noteIcon.svg" alt="noteIcon" class="menu-icon" , id="noteIcon">
                         <p class="menu-text">Note</p>
                         <div class="menu-underline"></div>
                     </div>
@@ -32,7 +32,7 @@
 
                 <a href="../ConfigTab/Config.html" class="menu-item-link">
                     <div class="menu-item-container">
-                        <img src="/icons/configIcon.svg" alt="configIcon" class="menu-icon" id="configIcon">
+                        <img src="../../resources/icons/configIcon.svg" alt="configIcon" class="menu-icon" id="configIcon">
                         <p class="menu-text">Config</p>
                         <div class="menu-underline"></div>
                     </div>
@@ -40,16 +40,8 @@
 
                 <a href="../PomodoroTab/FocusPlus.html" class="menu-item-link">
                     <div class="menu-item-container">
-                        <img src="/icons/timerIcon.svg" alt="timerIcon" class="menu-icon" id="timerIcon">
+                        <img src="../../resources/icons/timerIcon.svg" alt="timerIcon" class="menu-icon" id="timerIcon">
                         <p class="menu-text">Timer</p>
-                        <div class="menu-underline"></div>
-                    </div>
-                </a>
-
-                <a href="../SettingTab/Setting.html" class="menu-item-link">
-                    <div class="menu-item-container">
-                        <img src="/icons/settingIcon.svg" alt="settingIcon" class="menu-icon" id="settingIcon">
-                        <p class="menu-text ">Setting</p>
                         <div class="menu-underline"></div>
                     </div>
                 </a>
@@ -58,7 +50,7 @@
                 <div class="timerDisplay" id="timerDisplay">
                     <div class="foucesDiv">
                         <div class="foucesPic" id="foucesPic"></div>
-                        <p class="timeDisplay" id="timeDisplay">25:00</p>
+                        <p class="timeDisplay" id="timeDisplay"></p>
                         <p class="foucesDivText">stay Focused</p>
                     </div>
                     <svg class="timerSvg" viewBox="0 0 100 100">
@@ -68,7 +60,7 @@
                 </div>
             </div>
             <div class="timercontrolDiv">
-                <p class="Session-text">1/4 Sessions</p>
+                <p class="Session-text" id="updateSession">1/4 Sessions</p>
                 <div class="timerIcon , restIcon " id="restIcon"></div>
                 <div class="timerIcon , startIcon ," id="startIcon"></div>
                 <div class="timerIcon , forwardIcon" id="forwardIcon"></div>

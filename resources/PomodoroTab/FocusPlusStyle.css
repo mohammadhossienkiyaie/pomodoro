@@ -3,13 +3,19 @@
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     margin: 0;
     padding: 0;
-    overflow: hidden;
 }
 
 p {
     color: #C3BBBB;
 }
-
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
 a {
     text-decoration: none;
     display: block;
@@ -21,23 +27,13 @@ a {
     align-items: center;
 }
 
-html,
-body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-
 .appDiv {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 350px;
     height: 500px;
-    border-radius: 20px;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .titleBar {
@@ -46,8 +42,10 @@ body {
     flex-direction: row;
     justify-content: space-between;
     height: 40px;
-    width: 350px;
+    width: 360px;
+    margin: 0;
     margin-bottom: 5px;
+    margin-top: 5px;
 }
 
 .titleIcon {
@@ -78,17 +76,18 @@ body {
     display: flex;
     align-items: center;
     gap: 5px;
+    margin-bottom: 13px;
 }
 
 .main-menu {
-    width: 100%;
-    height: 65px;
+    width: 360px;
+    height: 66px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
     gap: 20px;
-    border-bottom: 1px solid #C3BBBB;
+    border-bottom: 1px solid #5e5454;
     margin: 0px;
 }
 
@@ -165,13 +164,10 @@ body {
 .Session-text {
     width: 53px;
     text-align: center;
-    /* font-size: 14px; */
+    font-size: 16px;
+    text-align: center;
 }
 
-.timerSvg {
-    transform: rotate(-90deg);
-    transform-origin: center;
-}
 
 .timer-circle-track {
     fill: none;
@@ -297,10 +293,15 @@ body {
 
 /* fouces icon and circle animation */
 .foucesDivText {
-    font-size: 20px;
+    width: 143px;
+    font-size: 18px;
+    font-weight: 500;
     text-align: center;
 }
-
+.timerSvg {
+    transform: rotate(-90deg);
+    transform-origin: center;
+}
 .foucesDiv {
     display: flex;
     flex-direction: column;

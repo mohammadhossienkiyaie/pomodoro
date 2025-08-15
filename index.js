@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow , ipcMain } = require('electron')
 const path = require('path')
 const remote = require('@electron/remote/main')
 
@@ -20,8 +20,7 @@ function createWindow() {
     icon: path.join(__dirname, 'resources/icons/appIcon.png')
 
   })
-
-
+  
   remote.enable(mainWindow.webContents)
 
   mainWindow.loadFile(path.join(__dirname, 'resources/PomodoroTab/FocusPlus.html'))
@@ -35,6 +34,14 @@ function createWindow() {
     mainWindow.setHasShadow(true)
   }
 }
+ipcMain.on('minimize-window', () => {
+    mainWindow.minimize();
+});
+
+ipcMain.on('close-window', () => {
+    mainWindow.close();
+});
+
 app.whenReady().then(createWindow)
 
 app.on('window-all-closed', () => {

@@ -1,42 +1,13 @@
-document.addEventListener('DOMContentLoaded', async () => {
-  await Neutralino.init();
-  
-  // Minimize
-  document.getElementById('minimize-btn').addEventListener('click', () => {
-    Neutralino.window.minimize();
-  });
-  
-  // Close
-  document.getElementById('close-btn').addEventListener('click', () => {
-    Neutralino.app.exit();
-  });
-  
-  // درگ پنجره
-  const titleBar = document.getElementById('title-bar');
-  let isDragging = false;
-  let offsetX, offsetY;
-  
-  titleBar.addEventListener('mousedown', (e) => {
-    if (e.target.closest('.window-controls') === null) {
-      isDragging = true;
-      offsetX = e.clientX;
-      offsetY = e.clientY;
-    }
-  });
-  
-  document.addEventListener('mousemove', (e) => {
-    if (isDragging) {
-      Neutralino.window.setPosition({
-        x: e.screenX - offsetX,
-        y: e.screenY - offsetY
-      });
-    }
-  });
-  
-  document.addEventListener('mouseup', () => {
-    isDragging = false;
-  });
+const { ipcRenderer, session } = require('electron');
+
+document.getElementById('minimize').addEventListener('click', () => {
+    ipcRenderer.send('minimize-window');
 });
+
+document.getElementById('exit').addEventListener('click', () => {
+    ipcRenderer.send('close-window');
+});
+
 const iconPath = {
     'noteIcon': {
         default: '../icons/noteIcon.svg',
@@ -127,7 +98,6 @@ function initializetTopbarHoverEffects() {
 initializeMenuHoverEffects();
 initializetTopbarHoverEffects();
 
-
 const resetIcon = document.getElementById('restIcon');
 const startIcon = document.getElementById('startIcon');
 const forwardIcon = document.getElementById('forwardIcon');
@@ -135,7 +105,8 @@ const soundIcon = document.getElementById('soundIcon');
 const progressCircle = document.getElementById('progressCircle');
 const timeDisplay = document.getElementById('timeDisplay');
 const foucesPic = document.getElementById('foucesPic');
-const updateSession = document.getElementById('updateSession');
+const sessionText = document.getElementById('updateSession');
+const displayText = document.getElementById('focusDivText');
 
 function controllTimerIcon() {
     soundIcon.addEventListener('click', () => {
@@ -146,16 +117,31 @@ document.addEventListener('DOMContentLoaded', controllTimerIcon);
 
 let starterTimer = {
     'focusTime': 25 * 60,
-    'shortBreakTime': 5 * 60, 
-    'longBreakTime': 15 * 60,  
+    'shortBreakTime': 5 * 60,
+    'longBreakTime': 15 * 60,
 };
 
 let isWorkTime = true;
-let cycleCount = 0;
 let totalDuration = starterTimer.focusTime;
-let leftTime = 0;
+let leftTime = starterTimer.focusTime;
 let intervalId = null;
+let completedFocusCount = 0;
 const circumference = 2 * Math.PI * 45;
+
+let isSoundOn = localStorage.getItem('isSoundOn');
+isSoundOn = isSoundOn === null ? true : (isSoundOn === 'true');
+
+soundIcon.addEventListener('click', () => {
+    isSoundOn = !isSoundOn;
+    localStorage.setItem('isSoundOn', isSoundOn);
+    soundIcon.classList.toggle('active', isSoundOn);
+});
+
+function playSound() {
+    if (!isSoundOn) return;
+    const audio = new Audio('../sounds/focuse.mp3');
+    audio.play().catch(e => console.log(e));
+}
 
 function formatTime(timeInSeconds) {
     const minutes = Math.floor(timeInSeconds / 60);
@@ -178,24 +164,37 @@ function startTimer() {
 
     if (leftTime <= 0) {
         if (isWorkTime) {
-            cycleCount++;
-            isWorkTime = false;
-            leftTime = (cycleCount % 4 === 0) ? starterTimer.longBreakTime : starterTimer.shortBreakTime;
+            completedFocusCount++;
+            if (completedFocusCount % 4 === 0) {
+                isWorkTime = false;
+                leftTime = starterTimer.longBreakTime;
+                sessionText.textContent = "long Break";
+                displayText.textContent = "Long Break Time";
+            } else {
+                isWorkTime = false;
+                leftTime = starterTimer.shortBreakTime;
+                sessionText.textContent = "Short Break";
+                displayText.textContent = "Short Break Time ";
+            }
         } else {
             isWorkTime = true;
             leftTime = starterTimer.focusTime;
+            sessionText.textContent = "Focus";
+            displayText.textContent = "Stay Focused";
         }
         totalDuration = leftTime;
         timeDisplay.textContent = formatTime(leftTime);
         progressCircle.style.strokeDashoffset = 0;
+        localStorage.setItem('sessionTextContent', sessionText.textContent);
     }
-    
+
     const endTime = Date.now() + leftTime * 1000;
     localStorage.setItem('timerEndTime', endTime);
     localStorage.setItem('timerIsWorkTime', isWorkTime);
-    localStorage.setItem('timerCycleCount', cycleCount);
     localStorage.setItem('timerTotalDuration', totalDuration);
     localStorage.setItem('timerIsRunning', 'true');
+    localStorage.setItem('completedFocusCount', completedFocusCount);
+    localStorage.setItem('sessionTextContent', sessionText.textContent);
 
     intervalId = setInterval(() => {
         leftTime--;
@@ -205,62 +204,109 @@ function startTimer() {
         if (leftTime <= 0) {
             clearInterval(intervalId);
             intervalId = null;
-            leftTime = 0;
-            startIcon.classList.remove('is-running', 'active');
-            
+            playSound();
+
             if (isWorkTime) {
-                const nextBreakTime = ((cycleCount + 1) % 4 === 0) ? starterTimer.longBreakTime : starterTimer.shortBreakTime;
-                timeDisplay.textContent = formatTime(nextBreakTime);
+                completedFocusCount++;
+                if (completedFocusCount % 4 === 0) {
+                    isWorkTime = false;
+                    leftTime = starterTimer.longBreakTime;
+                    sessionText.textContent = "long Break";
+                    displayText.textContent = "Long Break Time";
+
+                } else {
+                    isWorkTime = false;
+                    leftTime = starterTimer.shortBreakTime;
+                    sessionText.textContent = "Short Break";
+                    displayText.textContent = "Short Break Time ";
+                }
+                totalDuration = leftTime;
+                localStorage.setItem('sessionTextContent', sessionText.textContent);
+                startTimer();
             } else {
-                timeDisplay.textContent = formatTime(starterTimer.focusTime);
+                isWorkTime = true;
+                leftTime = starterTimer.focusTime;
+                totalDuration = starterTimer.focusTime;
+                timeDisplay.textContent = formatTime(leftTime);
+                sessionText.textContent = "Focus Time";
+                displayText.textContent = "Stay Focused";
+                updateProgressCircle();
+                startIcon.classList.remove('is-running', 'active');
+                localStorage.setItem('timerIsRunning', 'false');
+                localStorage.setItem('sessionTextContent', sessionText.textContent);
             }
-            progressCircle.style.strokeDashoffset = 0;
+            localStorage.setItem('completedFocusCount', completedFocusCount);
         }
     }, 1000);
 }
 
-function stopTimer() {
+function forwardTimer() {
     clearInterval(intervalId);
     intervalId = null;
     startIcon.classList.remove('is-running', 'active');
     localStorage.setItem('timerIsRunning', 'false');
+
+    if (isWorkTime) {
+        completedFocusCount++;
+        isWorkTime = false;
+        if (completedFocusCount % 4 === 0) {
+            leftTime = starterTimer.longBreakTime;
+            sessionText.textContent = "long Break";
+            displayText.textContent = "Long Break Time ";
+        } else {
+            leftTime = starterTimer.shortBreakTime;
+            sessionText.textContent = "Short Break";
+            displayText.textContent = "Short Break Time";
+        }
+    } else {
+        isWorkTime = true;
+        leftTime = starterTimer.focusTime;
+        sessionText.textContent = "Focus Time";
+        displayText.textContent = "Stay Focused";
+    }
+
+    totalDuration = leftTime;
+    timeDisplay.textContent = formatTime(leftTime);
+    updateProgressCircle();
+
+    localStorage.setItem('completedFocusCount', completedFocusCount);
+    localStorage.setItem('timerIsWorkTime', isWorkTime);
+    localStorage.setItem('timerTotalDuration', totalDuration);
+    localStorage.setItem('timerIsRunning', 'false');
+    localStorage.setItem('sessionTextContent', sessionText.textContent);
+    localStorage.setItem('displayText' , sessionText.textContent);
+
+    localStorage.removeItem('timerEndTime');
 }
 
 function resetTimer() {
     clearInterval(intervalId);
     intervalId = null;
     isWorkTime = true;
-    cycleCount = 0;
     leftTime = starterTimer.focusTime;
     totalDuration = starterTimer.focusTime;
+    completedFocusCount = 0;
     timeDisplay.textContent = formatTime(leftTime);
     progressCircle.style.strokeDashoffset = '0';
     startIcon.classList.remove('is-running', 'active');
+    sessionText.textContent = "Focus Time";
+    displayText.textContent = "Stay Focused";
+    localStorage.setItem('sessionTextContent', "Focus Time");
+    localStorage.setItem('displayText' , "Stay Focused" );
+
     localStorage.removeItem('timerEndTime');
     localStorage.removeItem('timerIsWorkTime');
     localStorage.removeItem('timerCycleCount');
     localStorage.removeItem('timerTotalDuration');
     localStorage.removeItem('timerIsRunning');
+    localStorage.removeItem('completedFocusCount');
 }
-
-startIcon.addEventListener('click', function () {
-    if (intervalId === null) {
-        startTimer();
-    } else {
-        stopTimer();
-    }
-});
-
-resetIcon.addEventListener('click', function () {
-    resetTimer();
-});
-
 
 document.addEventListener('DOMContentLoaded', function () {
     const savedFocusTime = localStorage.getItem('focusTime');
     if (savedFocusTime) {
         starterTimer.focusTime = parseFloat(savedFocusTime) * 60;
-    } 
+    }
     const savedShortBreakTime = localStorage.getItem('shortBreakTime');
     if (savedShortBreakTime) {
         starterTimer.shortBreakTime = parseFloat(savedShortBreakTime) * 60;
@@ -271,16 +317,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     const savedEndTime = localStorage.getItem('timerEndTime');
+    const wasRunning = localStorage.getItem('timerIsRunning') === 'true';
+
     if (savedEndTime) {
         const remainingSeconds = Math.round((savedEndTime - Date.now()) / 1000);
-        
+
         if (remainingSeconds > 0) {
             leftTime = remainingSeconds;
             isWorkTime = localStorage.getItem('timerIsWorkTime') === 'true';
-            cycleCount = parseInt(localStorage.getItem('timerCycleCount')) || 0;
             totalDuration = parseInt(localStorage.getItem('timerTotalDuration')) || starterTimer.focusTime;
-            
-            const wasRunning = localStorage.getItem('timerIsRunning') === 'true';
+
             if (wasRunning) {
                 startTimer();
             } else {
@@ -294,8 +340,37 @@ document.addEventListener('DOMContentLoaded', function () {
         leftTime = starterTimer.focusTime;
         totalDuration = starterTimer.focusTime;
     }
+    const savedFocusCount = localStorage.getItem('completedFocusCount');
+    completedFocusCount = savedFocusCount ? parseInt(savedFocusCount) : 0;
+
+    const savedSessionText = localStorage.getItem('sessionTextContent');
+    if (savedSessionText) {
+        sessionText.textContent = savedSessionText;
+    } else {
+        sessionText.textContent = "Focus";
+    }
 
     progressCircle.style.strokeDasharray = circumference;
     timeDisplay.textContent = formatTime(leftTime);
     updateProgressCircle();
+    soundIcon.classList.toggle('active', isSoundOn);
+});
+
+startIcon.addEventListener('click', function () {
+    if (intervalId === null) {
+        startTimer();
+    } else {
+        clearInterval(intervalId);
+        intervalId = null;
+        startIcon.classList.remove('is-running', 'active');
+        localStorage.setItem('timerIsRunning', 'false');
+    }
+});
+
+resetIcon.addEventListener('click', function () {
+    resetTimer();
+});
+
+forwardIcon.addEventListener('click', function () {
+    forwardTimer();
 });

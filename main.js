@@ -1,4 +1,4 @@
-const { app, BrowserWindow , ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const remote = require('@electron/remote/main')
 
@@ -12,15 +12,14 @@ function createWindow() {
     height: 510,
     frame: false,
     resizable: false,
+    icon: path.join(__dirname, 'resources', 'icons', 'appIcon.ico'),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
       enableRemoteModule: true
     },
-    icon: path.join(__dirname, 'resources/icons/appIcon.png')
-
   })
-  
+
   remote.enable(mainWindow.webContents)
 
   mainWindow.loadFile(path.join(__dirname, 'resources/PomodoroTab/FocusPlus.html'))
@@ -28,6 +27,7 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+  // win.webContents.openDevTools();
 
   if (process.platform === 'win32') {
     mainWindow.setBackgroundColor('#00000000')
@@ -35,11 +35,11 @@ function createWindow() {
   }
 }
 ipcMain.on('minimize-window', () => {
-    mainWindow.minimize();
+  mainWindow.minimize();
 });
 
 ipcMain.on('close-window', () => {
-    mainWindow.close();
+  mainWindow.close();
 });
 
 app.whenReady().then(createWindow)

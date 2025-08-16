@@ -1,3 +1,13 @@
+const { ipcRenderer, session } = require('electron');
+
+document.getElementById('minimize').addEventListener('click', () => {
+    ipcRenderer.send('minimize-window');
+});
+
+document.getElementById('exit').addEventListener('click', () => {
+    ipcRenderer.send('close-window');
+});
+
 const iconPath = {
     'noteIcon': {
         default: '../icons/noteIcon.svg',
@@ -10,10 +20,6 @@ const iconPath = {
     'timerIcon': {
         default: '../icons/timerIcon.svg',
         hover: '../icons/timerIcon-hover.svg'
-    },
-    'settingIcon': {
-        default: '../icons/settingIcon.svg',
-        hover: '../icons/settingIcon-hover.svg'
     },
     'startIcon': {
         clicked: '../icons/pause.svg',
@@ -125,11 +131,11 @@ function addBtnAction() {
         savedTaskDiv.appendChild(contentDiv);
         savedTaskDiv.appendChild(removeIconDiv);
         noteDiv.insertBefore(savedTaskDiv, noteDiv.firstChild);
-        if(checkBox && savedTaskDiv && removeIconDiv){
-            checkBox.addEventListener('click' , function(){
+        if (checkBox && savedTaskDiv && removeIconDiv) {
+            checkBox.addEventListener('click', function () {
                 taskText.classList.toggle('linethroughstyle');
             })
-            removeIconDiv.addEventListener('click', function(){
+            removeIconDiv.addEventListener('click', function () {
                 savedTaskDiv.remove();
             })
         }
@@ -161,3 +167,36 @@ if (inputBtn && buttonDiv && cancelBtn && addBtn) {
         }
     });
 }
+function highlightActiveMenuIcon() {
+    const page = window.location.pathname.toLowerCase();
+
+    document.querySelectorAll('.menu-icon').forEach(icon => {
+        icon.style.stroke = "#C3BBBB";
+        icon.style.fill = "#C3BBBB";
+    });
+
+    if (page.includes('pomodorotab')) {
+        const timerIcon = document.getElementById('timerIcon');
+        const timerTextIcon = document.getElementById('timerTextIcon');
+        if (timerIcon) {
+            timerIcon.src = '../icons/timerIcon-hover.svg'
+            timerTextIcon.style.color = "#27B43E";
+        }
+    } else if (page.includes('note')) {
+        const noteIcon = document.getElementById('noteIcon');
+        const noteText = document.getElementById('noteText');
+        if (noteIcon) {
+            noteIcon.src = '../icons/noteIcon-hover.svg'
+            noteText.style.color = "#27B43E";
+        }
+    } else if (page.includes('config')) {
+        const configIcon = document.getElementById('configIcon');
+        const configText = document.getElementById('configText');
+        if (configIcon) {
+            configIcon.src = '../icons/configIcon-hover.svg';
+            configText.style.color = "#27B43E";
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', highlightActiveMenuIcon);

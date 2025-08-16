@@ -21,15 +21,12 @@ const iconPath = {
         default: '../icons/timerIcon.svg',
         hover: '../icons/timerIcon-hover.svg'
     },
-    'settingIcon': {
-        default: '../icons/settingIcon.svg',
-        hover: '../icons/settingIcon-hover.svg'
-    },
     'startIcon': {
         clicked: '../icons/pause.svg',
         clickedHover: '../icons/pause-hover.svg'
     }
 };
+
 
 function initializeMenuHoverEffects() {
     const allMenuItem = document.querySelectorAll('.menu-item-link');
@@ -98,6 +95,7 @@ function initializetTopbarHoverEffects() {
 initializeMenuHoverEffects();
 initializetTopbarHoverEffects();
 
+
 const resetIcon = document.getElementById('restIcon');
 const startIcon = document.getElementById('startIcon');
 const forwardIcon = document.getElementById('forwardIcon');
@@ -157,6 +155,13 @@ function updateProgressCircle() {
     progressCircle.style.strokeDashoffset = offset;
 }
 
+function setTimerColors(stroke, color) {
+    progressCircle.style.stroke = stroke;
+    timeDisplay.style.color = color;
+    localStorage.setItem('shortBreakTimeCircle', stroke);
+    localStorage.setItem('shortBreakTimeColor', color);
+}
+
 function startTimer() {
     if (intervalId !== null) return;
 
@@ -170,22 +175,26 @@ function startTimer() {
                 leftTime = starterTimer.longBreakTime;
                 sessionText.textContent = "long Break";
                 displayText.textContent = "Long Break Time";
+                setTimerColors("#EF8C27", "#EF8C27");
             } else {
                 isWorkTime = false;
                 leftTime = starterTimer.shortBreakTime;
                 sessionText.textContent = "Short Break";
-                displayText.textContent = "Short Break Time ";
+                displayText.textContent = "Short Break Time";
+                setTimerColors("#EF8C27", "#EF8C27");
             }
         } else {
             isWorkTime = true;
             leftTime = starterTimer.focusTime;
             sessionText.textContent = "Focus";
             displayText.textContent = "Stay Focused";
+            setTimerColors("#27B43E", "#27B43E");
         }
         totalDuration = leftTime;
         timeDisplay.textContent = formatTime(leftTime);
         progressCircle.style.strokeDashoffset = 0;
         localStorage.setItem('sessionTextContent', sessionText.textContent);
+        localStorage.setItem('displayText', displayText.textContent);
     }
 
     const endTime = Date.now() + leftTime * 1000;
@@ -195,6 +204,7 @@ function startTimer() {
     localStorage.setItem('timerIsRunning', 'true');
     localStorage.setItem('completedFocusCount', completedFocusCount);
     localStorage.setItem('sessionTextContent', sessionText.textContent);
+    localStorage.setItem('displayText', displayText.textContent);
 
     intervalId = setInterval(() => {
         leftTime--;
@@ -213,27 +223,31 @@ function startTimer() {
                     leftTime = starterTimer.longBreakTime;
                     sessionText.textContent = "long Break";
                     displayText.textContent = "Long Break Time";
-
+                    setTimerColors("#EF8C27", "#EF8C27");
                 } else {
                     isWorkTime = false;
                     leftTime = starterTimer.shortBreakTime;
                     sessionText.textContent = "Short Break";
-                    displayText.textContent = "Short Break Time ";
+                    displayText.textContent = "Short Break Time";
+                    setTimerColors("#EF8C27", "#EF8C27");
                 }
                 totalDuration = leftTime;
                 localStorage.setItem('sessionTextContent', sessionText.textContent);
+                localStorage.setItem('displayText', displayText.textContent);
                 startTimer();
             } else {
                 isWorkTime = true;
                 leftTime = starterTimer.focusTime;
                 totalDuration = starterTimer.focusTime;
                 timeDisplay.textContent = formatTime(leftTime);
-                sessionText.textContent = "Focus Time";
+                sessionText.textContent = "Focus";
                 displayText.textContent = "Stay Focused";
+                setTimerColors("#27B43E", "#27B43E");
                 updateProgressCircle();
                 startIcon.classList.remove('is-running', 'active');
                 localStorage.setItem('timerIsRunning', 'false');
                 localStorage.setItem('sessionTextContent', sessionText.textContent);
+                localStorage.setItem('displayText', displayText.textContent);
             }
             localStorage.setItem('completedFocusCount', completedFocusCount);
         }
@@ -252,17 +266,20 @@ function forwardTimer() {
         if (completedFocusCount % 4 === 0) {
             leftTime = starterTimer.longBreakTime;
             sessionText.textContent = "long Break";
-            displayText.textContent = "Long Break Time ";
+            displayText.textContent = "Long Break Time";
+            setTimerColors("#EF8C27", "#EF8C27");
         } else {
             leftTime = starterTimer.shortBreakTime;
             sessionText.textContent = "Short Break";
             displayText.textContent = "Short Break Time";
+            setTimerColors("#EF8C27", "#EF8C27");
         }
     } else {
         isWorkTime = true;
         leftTime = starterTimer.focusTime;
-        sessionText.textContent = "Focus Time";
+        sessionText.textContent = "Focus";
         displayText.textContent = "Stay Focused";
+        setTimerColors("#27B43E", "#27B43E");
     }
 
     totalDuration = leftTime;
@@ -274,8 +291,9 @@ function forwardTimer() {
     localStorage.setItem('timerTotalDuration', totalDuration);
     localStorage.setItem('timerIsRunning', 'false');
     localStorage.setItem('sessionTextContent', sessionText.textContent);
-    localStorage.setItem('displayText' , sessionText.textContent);
+    localStorage.setItem('displayText', displayText.textContent);
 
+    // حذف timerEndTime تا تایمر بعد از forward اجرا نشود
     localStorage.removeItem('timerEndTime');
 }
 
@@ -289,10 +307,11 @@ function resetTimer() {
     timeDisplay.textContent = formatTime(leftTime);
     progressCircle.style.strokeDashoffset = '0';
     startIcon.classList.remove('is-running', 'active');
-    sessionText.textContent = "Focus Time";
+    sessionText.textContent = "Focus";
     displayText.textContent = "Stay Focused";
-    localStorage.setItem('sessionTextContent', "Focus Time");
-    localStorage.setItem('displayText' , "Stay Focused" );
+    setTimerColors("#27B43E", "#27B43E");
+    localStorage.setItem('sessionTextContent', "Focus");
+    localStorage.setItem('displayText', "Stay Focused");
 
     localStorage.removeItem('timerEndTime');
     localStorage.removeItem('timerIsWorkTime');
@@ -318,14 +337,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const savedEndTime = localStorage.getItem('timerEndTime');
     const wasRunning = localStorage.getItem('timerIsRunning') === 'true';
+    const savedIsWorkTime = localStorage.getItem('timerIsWorkTime') === 'true';
 
     if (savedEndTime) {
         const remainingSeconds = Math.round((savedEndTime - Date.now()) / 1000);
 
         if (remainingSeconds > 0) {
             leftTime = remainingSeconds;
-            isWorkTime = localStorage.getItem('timerIsWorkTime') === 'true';
-            totalDuration = parseInt(localStorage.getItem('timerTotalDuration')) || starterTimer.focusTime;
+            isWorkTime = savedIsWorkTime;
+            totalDuration = parseInt(localStorage.getItem('timerTotalDuration')) ||
+                (isWorkTime ? starterTimer.focusTime :
+                    (completedFocusCount % 4 === 0 && completedFocusCount !== 0 ? starterTimer.longBreakTime : starterTimer.shortBreakTime));
 
             if (wasRunning) {
                 startTimer();
@@ -337,18 +359,37 @@ document.addEventListener('DOMContentLoaded', function () {
             resetTimer();
         }
     } else {
-        leftTime = starterTimer.focusTime;
-        totalDuration = starterTimer.focusTime;
+        // مقداردهی درست بر اساس حالت فعلی تایمر
+        isWorkTime = savedIsWorkTime;
+        if (isWorkTime) {
+            leftTime = starterTimer.focusTime;
+            totalDuration = starterTimer.focusTime;
+        } else {
+            // تشخیص نوع استراحت
+            if (completedFocusCount % 4 === 0 && completedFocusCount !== 0) {
+                leftTime = starterTimer.longBreakTime;
+                totalDuration = starterTimer.longBreakTime;
+            } else {
+                leftTime = starterTimer.shortBreakTime;
+                totalDuration = starterTimer.shortBreakTime;
+            }
+        }
     }
+
     const savedFocusCount = localStorage.getItem('completedFocusCount');
     completedFocusCount = savedFocusCount ? parseInt(savedFocusCount) : 0;
 
+    // بازیابی sessionText و displayText
     const savedSessionText = localStorage.getItem('sessionTextContent');
-    if (savedSessionText) {
-        sessionText.textContent = savedSessionText;
-    } else {
-        sessionText.textContent = "Focus";
-    }
+    sessionText.textContent = savedSessionText ? savedSessionText : "Focus";
+    const savedDisplayText = localStorage.getItem('displayText');
+    displayText.textContent = savedDisplayText ? savedDisplayText : "Stay Focused";
+
+    // بازیابی رنگ‌ها
+    const savedStroke = localStorage.getItem('shortBreakTimeCircle');
+    const savedColor = localStorage.getItem('shortBreakTimeColor');
+    if (savedStroke) progressCircle.style.stroke = savedStroke;
+    if (savedColor) timeDisplay.style.color = savedColor;
 
     progressCircle.style.strokeDasharray = circumference;
     timeDisplay.textContent = formatTime(leftTime);
@@ -374,3 +415,38 @@ resetIcon.addEventListener('click', function () {
 forwardIcon.addEventListener('click', function () {
     forwardTimer();
 });
+
+function highlightActiveMenuIcon() {
+    const page = window.location.pathname.toLowerCase();
+
+    document.querySelectorAll('.menu-icon').forEach(icon => {
+        icon.style.stroke = "#C3BBBB";
+        icon.style.fill = "#C3BBBB";
+    });
+
+    if (page.includes('pomodorotab')) {
+        const timerIcon = document.getElementById('timerIcon');
+        const timerTextIcon = document.getElementById('timerTextIcon');
+        if (timerIcon) {
+            timerIcon.src = '../icons/timerIcon-hover.svg'
+            timerTextIcon.style.color = "#27B43E";
+        }
+    } else if (page.includes('note')) {
+        const noteIcon = document.getElementById('noteIcon');
+        const noteText = document.getElementById('noteText');
+        if (noteIcon) {
+            noteIcon.src = '../icons/noteIcon-hover.svg'
+            noteText.style.color = "#27B43E";
+        }
+    } else if (page.includes('config')) {
+        const configIcon = document.getElementById('configIcon');
+        const configText = document.getElementById('configText');
+        if (configIcon) {
+            configIcon.src = '../icons/configIcon-hover.svg';
+            configText.style.color = "#27B43E";
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', highlightActiveMenuIcon);
+

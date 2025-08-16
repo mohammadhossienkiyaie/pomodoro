@@ -1,3 +1,13 @@
+const { ipcRenderer, session } = require('electron');
+
+document.getElementById('minimize').addEventListener('click', () => {
+    ipcRenderer.send('minimize-window');
+});
+
+document.getElementById('exit').addEventListener('click', () => {
+    ipcRenderer.send('close-window');
+});
+
 const iconPath = {
     'noteIcon': {
         default: '../icons/noteIcon.svg',
@@ -11,15 +21,13 @@ const iconPath = {
         default: '../icons/timerIcon.svg',
         hover: '../icons/timerIcon-hover.svg'
     },
-    'settingIcon': {
-        default: '../icons/settingIcon.svg',
-        hover: '../icons/settingIcon-hover.svg'
-    },
     'startIcon': {
         clicked: '../icons/pause.svg',
         clickedHover: '../icons/pause-hover.svg'
     }
 };
+
+
 
 function initializeMenuHoverEffects() {
     const allMenuItem = document.querySelectorAll('.menu-item-link');
@@ -93,8 +101,8 @@ initializetTopbarHoverEffects();
 // for focus range 
 const starterTimer = {
     'focusTime': 25 * 60,
-    'shortBreakTime': 5 * 60,  
-    'longBreakTime': 15 * 60, 
+    'shortBreakTime': 5 * 60,
+    'longBreakTime': 15 * 60,
 };
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -116,21 +124,21 @@ document.addEventListener('DOMContentLoaded', function () {
         if (shortBreakRange) {
             const shortBreakMinute = parseFloat(shortBreakRange.value);
             starterTimer.shortBreakTime = shortBreakMinute * 60;
-            localStorage.setItem('shortBreakTime', shortBreakMinute.toString()); 
+            localStorage.setItem('shortBreakTime', shortBreakMinute.toString());
             if (shortText) shortText.textContent = `${shortBreakMinute} Mins`;
         }
         if (longBreakRange) {
             const longBreakMinute = parseFloat(longBreakRange.value);
             starterTimer.longBreakTime = longBreakMinute * 60;
-            localStorage.setItem('longBreakTime', longBreakMinute.toString()); 
+            localStorage.setItem('longBreakTime', longBreakMinute.toString());
             if (longText) longText.textContent = `${longBreakMinute} Mins`;
         }
     }
 
     function loadValue() {
         const savedFocus = localStorage.getItem('focusTime');
-        const shortBreak = localStorage.getItem('shortBreakTime'); 
-        const longBreak = localStorage.getItem('longBreakTime'); 
+        const shortBreak = localStorage.getItem('shortBreakTime');
+        const longBreak = localStorage.getItem('longBreakTime');
 
         if (focusRange && savedFocus !== null) {
             focusRange.value = savedFocus;
@@ -222,9 +230,9 @@ document.addEventListener('DOMContentLoaded', function () {
             updateRangeBackground(input);
         });
 
-        localStorage.setItem('focusTime' , inputRange[0].value );
-        localStorage.setItem('shortBreakRange' , inputRange[1].value);
-        localStorage.setItem('longBreakRange' , inputRange[2].value);
+        localStorage.setItem('focusTime', inputRange[0].value);
+        localStorage.setItem('shortBreakRange', inputRange[1].value);
+        localStorage.setItem('longBreakRange', inputRange[2].value);
     }
     function result(changeValue) {
         const defaultvalue = restBtn.textContent;
@@ -252,3 +260,36 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 })
 
+function highlightActiveMenuIcon() {
+    const page = window.location.pathname.toLowerCase();
+
+    document.querySelectorAll('.menu-icon').forEach(icon => {
+        icon.style.stroke = "#C3BBBB";
+        icon.style.fill = "#C3BBBB";
+    });
+
+    if (page.includes('pomodorotab')) {
+        const timerIcon = document.getElementById('timerIcon');
+        const timerTextIcon = document.getElementById('timerTextIcon');
+        if (timerIcon) {
+            timerIcon.src = '../icons/timerIcon-hover.svg'
+            timerTextIcon.style.color = "#27B43E";
+        }
+    } else if (page.includes('note')) {
+        const noteIcon = document.getElementById('noteIcon');
+        const noteText = document.getElementById('noteText');
+        if (noteIcon) {
+            noteIcon.src = '../icons/noteIcon-hover.svg'
+            noteText.style.color = "#27B43E";
+        }
+    } else if (page.includes('config')) {
+        const configIcon = document.getElementById('configIcon');
+        const configText = document.getElementById('configText');
+        if (configIcon) {
+            configIcon.src = '../icons/configIcon-hover.svg';
+            configText.style.color = "#27B43E";
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', highlightActiveMenuIcon);
